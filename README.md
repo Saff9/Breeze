@@ -4,10 +4,10 @@
 
 A minimal, readable programming language. No curly braces, no semicolons, no boilerplate.
 
-[![Rust](https://img.shields.io/badge/rust-1.70%2B-orange)](https://www.rust-lang.org)
-[![Node](https://img.shields.io/badge/node-18%2B-green)](https://nodejs.org)
+[![npm version](https://img.shields.io/npm/v/breeze-lang.svg?color=green)](https://www.npmjs.com/package/breeze-lang)
+[![npm downloads](https://img.shields.io/npm/dm/breeze-lang.svg?color=blue)](https://www.npmjs.com/package/breeze-lang)
+[![VS Code](https://img.shields.io/visual-studio-marketplace/v/saffanakbar.breeze-lang.svg?label=VS%20Code)](https://marketplace.visualstudio.com/items?itemName=saffanakbar.breeze-lang)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
-[![VS Code](https://img.shields.io/badge/VS%20Code-extension-blue)](breeze-vscode/)
 
 </div>
 
