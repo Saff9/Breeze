@@ -1,0 +1,7 @@
+{
+  "name": "validate",
+  "version": "1.0.0",
+  "description": "Validation helpers for Breeze: is_email, is_number, is_url, required, min/max length.",
+  "entry": "main.bz",
+  "language": "breeze"
+}

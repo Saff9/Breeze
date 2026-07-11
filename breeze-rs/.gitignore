@@ -1,0 +1,15 @@
+# Build artifacts
+/target
+
+# Cargo lockfile (this is a library; lockfiles are for binaries)
+Cargo.lock
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db

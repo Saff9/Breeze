@@ -1,0 +1,39 @@
+# Helper functions for the API routes.
+# Exported so main.bz can import them.
+#
+# CONVENTION: an "object" in Breeze is a list of [key, value] pairs, e.g.
+#   [["id", 1], ["name", "Alice"]]
+# This matches what json.parse() returns and what json.get() expects.
+
+# Build a JSON HTTP response from a status code and a Breeze value.
+# Returns an object (list of pairs): [["status", n], ["headers", [...]], ["body", "..."]]
+export func json_response(status, body):
+  return [
+    ["status", status],
+    ["headers", [["Content-Type", "application/json"]]],
+    ["body", json.stringify(body)]
+  ]
+
+# Build a 404 response with a message.
+export func not_found(message):
+  return json_response(404, [["error", message]])
+
+# Build a 200 response with a message.
+export func ok(message):
+  return json_response(200, [["message", message]])
+
+# Return true if `text` starts with `prefix`.
+export func starts_with(text, prefix):
+  if len(text) < len(prefix):
+    return false
+  for i in range(len(prefix)):
+    if text[i] != prefix[i]:
+      return false
+  return true
+
+# Return the part of `text` that comes after `prefix`.
+export func after_prefix(text, prefix):
+  result = ""
+  for i in range(len(prefix), len(text)):
+    result = result + text[i]
+  return result

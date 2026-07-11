@@ -1,0 +1,16 @@
+# Variables are simple — just use a name
+name = "Alice"
+age = 25
+height = 5.6
+
+# Show them
+show "Name:", name
+show "Age:", age
+show "Height:", height
+
+# Math just works
+total = 10 + 20
+show "10 + 20 =", total
+
+# Text and numbers mix automatically — no str() needed!
+show "Next year I will be " + (age + 1)

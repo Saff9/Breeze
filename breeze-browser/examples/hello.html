@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Breeze in HTML — Hello</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 720px; margin: 2rem auto; padding: 0 1rem; background: #0f172a; color: #e2e8f0; }
+    h1 { color: #34d399; }
+    .breeze-output { background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 1rem; font-family: monospace; white-space: pre-wrap; }
+    .breeze-output div { padding: 2px 0; }
+    code { background: #1e293b; padding: 2px 6px; border-radius: 4px; font-size: 0.9em; }
+  </style>
+</head>
+<body>
+  <h1>🌬️ Hello, Breeze!</h1>
+  <p>This page runs Breeze code directly in the browser. View source to see it.</p>
+
+  <!-- Breeze output goes here -->
+  <div id="out" class="breeze-output"></div>
+
+  <!-- Include the Breeze runtime -->
+  <script src="../breeze.js"></script>
+
+  <!-- Write Breeze! -->
+  <script type="text/breeze" data-output="out">
+    # This is Breeze code, running in your browser!
+    show "Hello, World!"
+
+    name = "Developer"
+    show "Welcome, {name}!"
+
+    show "Counting:"
+    repeat i from 1 to 5:
+      show "  {i} squared is {i * i}"
+
+    show ""
+    show "Fibonacci:"
+    func fib(n):
+      if n < 2:
+        return n
+      else:
+        return fib(n - 1) + fib(n - 2)
+    repeat i from 0 to 10:
+      show "  fib({i}) = {fib(i)}"
+  </script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+[package]
+name = "breeze"
+version = "1.2.0"
+edition = "2021"
+authors = ["Breeze Language Project"]
+license = "MIT"
+description = "Breeze — the easiest programming language. A beginner-friendly, indentation-based language implemented in safe Rust."
+homepage = "https://github.com/Saff9/Breeze"
+repository = "https://github.com/Saff9/Breeze"
+documentation = "https://github.com/Saff9/Breeze"
+readme = "README.md"
+keywords = ["language", "interpreter", "programming-language", "beginner", "scripting"]
+categories = ["interpreters", "command-line-utilities"]
+exclude = ["/examples/*.bz", "/docs"]
+
+[[bin]]
+name = "breeze"
+path = "src/main.rs"
+
+[lib]
+name = "breeze"
+path = "src/lib.rs"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true
+
+[profile.dev]
+opt-level = 0
+debug = true

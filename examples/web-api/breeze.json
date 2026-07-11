@@ -1,0 +1,7 @@
+{
+  "name": "breeze-web-api",
+  "version": "1.0.0",
+  "entry": "src/main.bz",
+  "runtime": "breeze-lang",
+  "description": "A REST API written in Breeze"
+}

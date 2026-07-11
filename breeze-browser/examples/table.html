@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Breeze Generates HTML</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 720px; margin: 2rem auto; padding: 0 1rem; background: #0f172a; color: #e2e8f0; }
+    h1 { color: #34d399; }
+    .generated { background: #fff; color: #1e293b; padding: 1.5rem; border-radius: 8px; margin: 1rem 0; }
+    .generated h2 { color: #0d9488; margin-top: 0; }
+    .generated table { border-collapse: collapse; width: 100%; }
+    .generated th, .generated td { border: 1px solid #cbd5e1; padding: 6px 10px; text-align: center; }
+    .generated th { background: #0d9488; color: #fff; }
+    .breeze-output { background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 1rem; font-family: monospace; white-space: pre-wrap; margin-top: 1rem; }
+    .breeze-output div { padding: 1px 0; }
+    code { background: #1e293b; padding: 2px 6px; border-radius: 4px; font-size: 0.9em; }
+  </style>
+</head>
+<body>
+  <h1>🌬️ Breeze Builds HTML</h1>
+  <p>This page uses Breeze's <code>html</code> and <code>dom</code> modules to generate and inject a multiplication table.</p>
+
+  <div id="content"></div>
+  <div id="log" class="breeze-output"></div>
+
+  <script src="../breeze.js"></script>
+  <script type="text/breeze" data-output="log">
+    # Build a multiplication table using the html module
+    show "Building a multiplication table with Breeze..."
+
+    # Header row
+    header = "<tr><th>&times;</th>"
+    repeat c from 1 to 10:
+      header = header + "<th>" + c + "</th>"
+    header = header + "</tr>"
+
+    # Body rows
+    rows = header
+    repeat r from 1 to 10:
+      row = "<tr><th>" + r + "</th>"
+      repeat c from 1 to 10:
+        row = row + "<td>" + (r * c) + "</td>"
+      row = row + "</tr>"
+      rows = rows + row
+
+    table = html.tag("table", rows)
+    heading = html.h2("Multiplication Table")
+    page = html.div(heading + table)
+
+    show "Generated " + len(page) + " characters of HTML"
+
+    # Inject the generated HTML into the page using the dom module
+    dom.set("content", page)
+    show "Done! The table is rendered above."
+  </script>
+</body>
+</html>

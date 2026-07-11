@@ -1,0 +1,24 @@
+# Define a function
+func greet(name):
+  show "Hello, " + name + "!"
+
+# Call it
+greet("World")
+greet("Breeze")
+
+# Function that returns a value
+func add(a, b):
+  return a + b
+
+result = add(10, 20)
+show "10 + 20 =", result
+
+# Function with logic
+func isEven(n):
+  if n % 2 == 0:
+    return true
+  else:
+    return false
+
+show "Is 4 even?", isEven(4)
+show "Is 7 even?", isEven(7)

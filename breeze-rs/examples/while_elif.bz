@@ -1,0 +1,40 @@
+# while loops with break and continue, plus elif chains.
+
+# while loop — count up from 1 to 3.
+i = 1
+show "Counting up:"
+while i <= 3:
+  show i
+  i = i + 1
+
+# elif chain — pick a grade from a score.
+score = 75
+show "Grading score " + score + ":"
+if score >= 90:
+  show "Grade: A"
+elif score >= 80:
+  show "Grade: B"
+elif score >= 70:
+  show "Grade: C"
+elif score >= 60:
+  show "Grade: D"
+else:
+  show "Grade: F"
+
+# while + break: stop early when a condition is met.
+n = 1
+show "Break example:"
+while true:
+  if n > 4:
+    break
+  show n
+  n = n + 1
+
+# while + continue: skip even numbers.
+k = 0
+show "Continue example (odd only):"
+while k < 6:
+  k = k + 1
+  if k % 2 == 0:
+    continue
+  show k

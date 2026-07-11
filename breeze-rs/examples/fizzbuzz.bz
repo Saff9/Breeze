@@ -1,0 +1,12 @@
+# FizzBuzz in Breeze — so easy!
+repeat i from 1 to 20:
+  if i % 15 == 0:
+    show "FizzBuzz"
+  else:
+    if i % 3 == 0:
+      show "Fizz"
+    else:
+      if i % 5 == 0:
+        show "Buzz"
+      else:
+        show i

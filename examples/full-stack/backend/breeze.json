@@ -1,0 +1,7 @@
+{
+  "name": "todo-api",
+  "version": "1.0.0",
+  "description": "A todo API backend in Breeze.",
+  "entry": "main.bz",
+  "dependencies": {}
+}

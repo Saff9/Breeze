@@ -1,0 +1,38 @@
+{
+  "name": "breeze-lang",
+  "version": "1.2.0",
+  "description": "Breeze — a small scripting language that runs on Node, in the browser, and as a native binary.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "breeze": "bin/breeze.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc -w",
+    "test": "node tests/run.js && node tests/features.js",
+    "prepublishOnly": "npm run build && npm test"
+  },
+  "keywords": [
+    "breeze",
+    "language",
+    "interpreter",
+    "programming-language",
+    "scripting",
+    "serverless"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "files": [
+    "dist",
+    "bin",
+    "README.md",
+    "LICENSE"
+  ],
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "@types/node": "^20.11.0"
+  }
+}

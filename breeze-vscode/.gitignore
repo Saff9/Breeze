@@ -1,0 +1,17 @@
+# Build artifacts
+/out
+/node_modules
+
+# VS Code extension package output
+*.vsix
+
+# Logs
+*.log
+
+# IDE (meta-ironic, but keeps the extension's own workspace clean)
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db

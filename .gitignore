@@ -1,0 +1,49 @@
+# Dependencies
+node_modules/
+.pnp.*
+.yarn/*
+
+# Build output
+.next/
+out/
+build/
+dist/
+target/
+*.tsbuildinfo
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Env
+.env
+.env.local
+
+# Logs
+*.log
+dev.log
+
+# Vercel
+.vercel
+
+# Breeze package cache (installed by `breeze install`)
+breeze_modules/
+
+# Misc
+upload/
+tool-results/
+.claude
+.z-ai-config
+prompt

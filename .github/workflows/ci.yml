@@ -1,0 +1,122 @@
+name: CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  rust:
+    name: Rust (breeze-rs)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: breeze-rs
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy, rustfmt
+
+      - name: Cache Cargo
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            breeze-rs/target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('breeze-rs/Cargo.toml') }}
+
+      - name: Build
+        run: cargo build --verbose
+
+      - name: Clippy
+        run: cargo clippy -- -D warnings
+
+      - name: Format check
+        run: cargo fmt --check
+
+      - name: Run examples
+        run: |
+          for f in examples/*.bz; do
+            ./target/debug/breeze "$f" > /dev/null || { echo "FAIL: $f"; exit 1; }
+          done
+
+  node:
+    name: Node (breeze-node)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: breeze-node
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: breeze-node/package.json
+
+      - name: Install
+        run: npm install
+
+      - name: Build
+        run: npx tsc
+
+      - name: Test
+        run: npm test
+
+  vscode:
+    name: VS Code extension
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: breeze-vscode
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: breeze-vscode/package.json
+
+      - name: Install
+        run: npm install
+
+      - name: Compile
+        run: npx tsc -p ./
+
+  python:
+    name: Python (breeze-python)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: breeze-python
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Check syntax
+        run: |
+          python -m py_compile src/breeze_lang/__init__.py
+          python -m py_compile src/breeze_lang/cli.py
+          python -m py_compile src/breeze_lang/__main__.py
+
+      - name: Check package builds
+        run: |
+          pip install build
+          python -m build --sdist --wheel

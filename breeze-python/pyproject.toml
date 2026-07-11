@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "breeze-lang"
+version = "1.2.0"
+description = "Run Breeze programs from Python — the easiest programming language, with Python interop."
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.8"
+authors = [{ name = "Breeze Language Project" }]
+keywords = ["breeze", "language", "interpreter", "programming-language", "scripting"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.scripts]
+breeze = "breeze_lang.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

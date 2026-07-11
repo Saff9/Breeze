@@ -1,0 +1,26 @@
+# Make a list
+numbers = [10, 20, 30, 40, 50]
+
+# Access items
+show "First:", numbers[0]
+show "Third:", numbers[2]
+
+# Change an item
+numbers[0] = 99
+show "Updated:", numbers
+
+# Built-in helpers
+show "Length:", len(numbers)
+show "Sum:", sum(numbers)
+show "Min:", min(numbers[0], numbers[1], numbers[2], numbers[3], numbers[4])
+show "Max:", max(numbers[0], numbers[1], numbers[2], numbers[3], numbers[4])
+
+# Add an item
+numbers = push(numbers, 60)
+show "After push:", numbers
+
+# Loop over list and accumulate
+total = 0
+for n in numbers:
+  total = total + n
+show "Total of all:", total

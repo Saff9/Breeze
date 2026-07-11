@@ -1,0 +1,20 @@
+# Conditions with if / else
+score = 85
+
+if score >= 90:
+  show "Grade: A"
+else:
+  if score >= 80:
+    show "Grade: B"
+  else:
+    if score >= 70:
+      show "Grade: C"
+    else:
+      show "Grade: F"
+
+# Simple check
+temperature = 30
+if temperature > 25:
+  show "It's hot outside!"
+else:
+  show "Nice weather."

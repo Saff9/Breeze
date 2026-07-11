@@ -1,0 +1,25 @@
+# Route helpers.
+
+export func json_response(status, body):
+  return [
+    ["status", status],
+    ["headers", [["Content-Type", "application/json"], ["Access-Control-Allow-Origin", "*"]]],
+    ["body", json.stringify(body)]
+  ]
+
+export func not_found(message):
+  return json_response(404, [["error", message]])
+
+export func starts_with(text, prefix):
+  if len(text) < len(prefix):
+    return false
+  for i in range(len(prefix)):
+    if text[i] != prefix[i]:
+      return false
+  return true
+
+export func after_prefix(text, prefix):
+  result = ""
+  for i in range(len(prefix), len(text)):
+    result = result + text[i]
+  return result

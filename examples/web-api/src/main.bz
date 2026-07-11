@@ -1,0 +1,74 @@
+# A complete REST API written in Breeze.
+#
+# Run locally:   breeze run src/main.bz
+# Deploy:        See ../DEPLOY.md (Docker / Vercel / Render / VM)
+#
+# CONVENTION: an "object" in Breeze is a list of [key, value] pairs, e.g.
+#   [["id", 1], ["name", "Alice"]]
+# This matches what json.parse() returns and what json.get() expects.
+
+import { json_response, not_found, starts_with, after_prefix } from "./routes.bz"
+
+# Read the port from the environment, default to 3000
+port_env = env.get("PORT")
+if port_env == none:
+  port = 3000
+else:
+  port = number(port_env)
+
+show "Breeze API starting on port " + port + "..."
+show "Endpoints:"
+show "  GET  /           health check"
+show "  GET  /items      list all items"
+show "  POST /items      create an item"
+show "  GET  /items/<id> get one item"
+
+# A tiny in-memory database. Each item is an object (list of [key, value] pairs).
+items = [
+  [["id", 1], ["name", "Learn Breeze"], ["done", false]],
+  [["id", 2], ["name", "Build an app"], ["done", false]],
+  [["id", 3], ["name", "Deploy it"], ["done", false]]
+]
+next_id = 4
+
+# The request handler. Breeze calls this for every HTTP request.
+# `req` is an object (list of pairs) with: method, path, body, headers.
+func handle(req):
+  method = json.get(req, "method")
+  path = json.get(req, "path")
+
+  # GET / — health check
+  if method == "GET" and path == "/":
+    return json_response(200, [
+      ["status", "ok"],
+      ["service", "breeze-api"],
+      ["version", "1.0.0"]
+    ])
+
+  # GET /items — list all items
+  if method == "GET" and path == "/items":
+    return json_response(200, items)
+
+  # POST /items — create a new item
+  if method == "POST" and path == "/items":
+    body = json.get(req, "body")
+    parsed = json.parse(body)
+    name = json.get(parsed, "name")
+    new_item = [["id", next_id], ["name", name], ["done", false]]
+    items = push(items, new_item)
+    next_id = next_id + 1
+    return json_response(201, new_item)
+
+  # GET /items/<id> — get one item by ID
+  if method == "GET" and starts_with(path, "/items/"):
+    id_text = after_prefix(path, "/items/")
+    id_num = number(id_text)
+    for item in items:
+      if json.get(item, "id") == id_num:
+        return json_response(200, item)
+    return not_found("Item " + id_text + " not found")
+
+  return not_found("Route not found: " + method + " " + path)
+
+# Start the server (blocks forever, serving requests)
+http.listen(port, handle)

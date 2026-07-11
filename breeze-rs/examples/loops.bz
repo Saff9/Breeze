@@ -1,0 +1,15 @@
+# Repeat something N times
+show "Counting up:"
+repeat 5:
+  show "Hello!"
+
+# Loop with a counter variable
+show "Numbers 1 to 5:"
+repeat i from 1 to 5:
+  show i
+
+# Loop over a list
+fruits = ["apple", "banana", "cherry"]
+show "My fruits:"
+for fruit in fruits:
+  show "- " + fruit

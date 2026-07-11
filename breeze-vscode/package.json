@@ -1,0 +1,107 @@
+{
+  "name": "breeze",
+  "displayName": "Breeze",
+  "description": "Language support for Breeze — the easiest programming language",
+  "version": "1.2.0",
+  "publisher": "breeze-lang",
+  "license": "MIT",
+  "icon": "images/icon.svg",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Saff9/Breeze"
+  },
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Snippets"
+  ],
+  "keywords": [
+    "breeze",
+    "language",
+    "beginner",
+    "education",
+    "programming"
+  ],
+  "activationEvents": [
+    "onLanguage:breeze"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "breeze",
+        "aliases": [
+          "Breeze",
+          "breeze"
+        ],
+        "extensions": [
+          ".bz"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "breeze",
+        "scopeName": "source.breeze",
+        "path": "./syntaxes/breeze.tmLanguage.json"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "breeze",
+        "path": "./snippets/breeze.json"
+      }
+    ],
+    "commands": [
+      {
+        "command": "breeze.runFile",
+        "title": "Breeze: Run File",
+        "icon": "$(play)"
+      },
+      {
+        "command": "breeze.createProject",
+        "title": "Breeze: Create New Project"
+      }
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "breeze.runFile",
+          "when": "editorLangId == breeze",
+          "group": "navigation"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Breeze",
+      "properties": {
+        "breeze.interpreterPath": {
+          "type": "string",
+          "default": "breeze",
+          "description": "Path to the breeze interpreter executable"
+        }
+      }
+    },
+    "keybindings": [
+      {
+        "command": "breeze.runFile",
+        "key": "ctrl+alt+b",
+        "mac": "cmd+alt+b",
+        "when": "editorLangId == breeze"
+      }
+    ]
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "vsce-package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@types/vscode": "^1.80.0",
+    "typescript": "^5.0.0"
+  }
+}

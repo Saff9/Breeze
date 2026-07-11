@@ -1,0 +1,14 @@
+# Template helpers for the static site.
+
+export func render_post(post):
+  title = json.get(post, "title")
+  date = json.get(post, "date")
+  body = json.get(post, "body")
+  return html.div(
+    html.h2(title) +
+    html.p("<em>" + date + "</em>") +
+    html.p(body)
+  )
+
+export func render_list(items):
+  return html.ul(items)

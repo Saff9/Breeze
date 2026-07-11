@@ -1,0 +1,157 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Breeze",
+  "scopeName": "source.breeze",
+  "fileTypes": ["bz"],
+  "patterns": [
+    { "include": "#comments" },
+    { "include": "#function-definition" },
+    { "include": "#control-keywords" },
+    { "include": "#constants" },
+    { "include": "#logical-operators" },
+    { "include": "#builtin-functions" },
+    { "include": "#strings" },
+    { "include": "#numbers" },
+    { "include": "#operators" },
+    { "include": "#punctuation" },
+    { "include": "#variables" }
+  ],
+  "repository": {
+    "comments": {
+      "name": "comment.line.number-sign.breeze",
+      "match": "#.*$"
+    },
+    "function-definition": {
+      "name": "meta.function.breeze",
+      "begin": "\\b(func)\\s+([a-zA-Z_][a-zA-Z0-9_]*)",
+      "beginCaptures": {
+        "1": {
+          "name": "keyword.control.breeze"
+        },
+        "2": {
+          "name": "entity.name.function.breeze"
+        }
+      },
+      "end": "(?=\\s*(?:#|$))",
+      "patterns": [
+        {
+          "include": "#parameters"
+        }
+      ]
+    },
+    "parameters": {
+      "patterns": [
+        {
+          "name": "variable.parameter.function.breeze",
+          "match": "\\b([a-zA-Z_][a-zA-Z0-9_]*)\\b"
+        },
+        {
+          "include": "#punctuation"
+        }
+      ]
+    },
+    "control-keywords": {
+      "name": "keyword.control.breeze",
+      "match": "\\b(show|if|elif|else|while|repeat|from|to|for|in|func|return|break|continue|import|export)\\b"
+    },
+    "constants": {
+      "name": "constant.language.breeze",
+      "match": "\\b(true|false|none)\\b"
+    },
+    "logical-operators": {
+      "name": "keyword.operator.logical.breeze",
+      "match": "\\b(and|or|not)\\b"
+    },
+    "builtin-functions": {
+      "name": "support.function.breeze",
+      "match": "\\b(len|text|number|upper|lower|abs|round|floor|ceil|random|sum|min|max|push|range|type|join|split|contains|trim|replace|slice|starts_with|ends_with|index_of|reverse|repeat_text)\\b(?=\\s*\\()"
+    },
+    "strings": {
+      "patterns": [
+        {
+          "name": "string.quoted.double.breeze",
+          "begin": "\"",
+          "end": "\"",
+          "patterns": [
+            {
+              "name": "constant.character.escape.breeze",
+              "match": "\\\\."
+            },
+            {
+              "name": "meta.interpolation.breeze",
+              "match": "\\{[^}]*\\}",
+              "captures": {
+                "0": {
+                  "name": "variable.other.readwrite.breeze"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "string.quoted.single.breeze",
+          "begin": "'",
+          "end": "'",
+          "patterns": [
+            {
+              "name": "constant.character.escape.breeze",
+              "match": "\\\\."
+            }
+          ]
+        }
+      ]
+    },
+    "numbers": {
+      "name": "constant.numeric.breeze",
+      "match": "\\b\\d+(\\.\\d+)?\\b"
+    },
+    "operators": {
+      "patterns": [
+        {
+          "name": "keyword.operator.assignment.breeze",
+          "match": "=(?!=)"
+        },
+        {
+          "name": "keyword.operator.comparison.breeze",
+          "match": "==|!=|<=|>=|<|>"
+        },
+        {
+          "name": "keyword.operator.arithmetic.breeze",
+          "match": "[+\\-*/%]"
+        }
+      ]
+    },
+    "punctuation": {
+      "patterns": [
+        {
+          "name": "punctuation.separator.colon.breeze",
+          "match": ":"
+        },
+        {
+          "name": "punctuation.separator.comma.breeze",
+          "match": ","
+        },
+        {
+          "name": "punctuation.definition.parameters.begin.breeze",
+          "match": "\\("
+        },
+        {
+          "name": "punctuation.definition.parameters.end.breeze",
+          "match": "\\)"
+        },
+        {
+          "name": "punctuation.definition.list.begin.breeze",
+          "match": "\\["
+        },
+        {
+          "name": "punctuation.definition.list.end.breeze",
+          "match": "\\]"
+        }
+      ]
+    },
+    "variables": {
+      "name": "variable.other.breeze",
+      "match": "\\b[a-zA-Z_][a-zA-Z0-9_]*\\b"
+    }
+  }
+}

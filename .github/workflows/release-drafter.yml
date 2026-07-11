@@ -1,0 +1,22 @@
+name: Release Drafter
+
+# Auto-drafts the next release notes from merged pull requests. When you're
+# ready to release, publish the draft and tag it.
+
+on:
+  push:
+    branches: [main]
+  pull_request_target:
+    types: [opened, reopened, synchronized]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  update-release-draft:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: release-drafter/release-drafter@v6
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

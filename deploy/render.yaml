@@ -1,0 +1,25 @@
+# render.yaml — Deploy a Breeze web service to Render (https://render.com)
+#
+# Usage: commit this file to your repo, then in Render dashboard:
+#   New → Blueprint → select your repo. Render will read this file.
+#
+# Alternatively, deploy manually as a "Web Service":
+#   - Runtime: Node
+#   - Build Command: npm install
+#   - Start Command: breeze run src/main.bz
+#
+# The service reads PORT from the environment (Render sets this automatically).
+
+services:
+  - type: web
+    name: breeze-api
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npx breeze run src/main.bz
+    healthCheckPath: /
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # PORT is provided by Render automatically — do not set it here.

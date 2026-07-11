@@ -1,0 +1,99 @@
+# Validation helpers.
+# Pure Breeze — no regex, just string checks.
+#
+#   import { is_email, is_number, required, min_length } from "validate"
+
+# Check if text looks like an email.
+export func is_email(text):
+  if len(text) < 5:
+    return false
+  at = index_of(text, "@")
+  if at < 1:
+    return false
+  after_at = slice(text, at)
+  if index_of(after_at, ".") < 0:
+    return false
+  if at == len(text) - 1:
+    return false
+  return true
+
+# Check if text can be converted to a number.
+export func is_number(text):
+  if len(text) == 0:
+    return false
+  has_digit = false
+  has_dot = false
+  for i in range(len(text)):
+    c = text[i]
+    if c == "-":
+      if i != 0:
+        return false
+    elif c == ".":
+      if has_dot:
+        return false
+      has_dot = true
+    elif c < "0" or c > "9":
+      return false
+    else:
+      has_digit = true
+  return has_digit
+
+# Check if text looks like a URL.
+export func is_url(text):
+  if starts_with(text, "http://"):
+    return len(text) > 7
+  if starts_with(text, "https://"):
+    return len(text) > 8
+  return false
+
+# Check that a value is not none and not empty text.
+export func required(value):
+  if value == none:
+    return false
+  if type(value) == "string" and len(value) == 0:
+    return false
+  return true
+
+# Minimum length check.
+export func min_length(text, n):
+  return len(text) >= n
+
+# Maximum length check.
+export func max_length(text, n):
+  return len(text) <= n
+
+# Check if value is in a list of allowed values.
+export func in_list(value, allowed):
+  for item in allowed:
+    if value == item:
+      return true
+  return false
+
+# Validate a list of fields. Each field is [value, rules]
+# where rules is a list of [rule_name, arg]. Returns a list of errors
+# (empty list = valid).
+export func validate_fields(fields):
+  errors = []
+  for field in fields:
+    name = field[0]
+    value = field[1]
+    rules = field[2]
+    for rule in rules:
+      rule_name = rule[0]
+      rule_arg = rule[1]
+      if rule_name == "required":
+        if not required(value):
+          push(errors, name + " is required")
+      elif rule_name == "min_length":
+        if not min_length(value, rule_arg):
+          push(errors, name + " must be at least " + rule_arg + " characters")
+      elif rule_name == "max_length":
+        if not max_length(value, rule_arg):
+          push(errors, name + " must be at most " + rule_arg + " characters")
+      elif rule_name == "is_email":
+        if not is_email(value):
+          push(errors, name + " is not a valid email")
+      elif rule_name == "is_number":
+        if not is_number(value):
+          push(errors, name + " must be a number")
+  return errors

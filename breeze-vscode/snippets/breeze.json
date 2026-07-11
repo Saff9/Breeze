@@ -1,0 +1,100 @@
+{
+  "show": {
+    "prefix": "show",
+    "body": ["show $1"],
+    "description": "Print a value to the console"
+  },
+  "interpolation": {
+    "prefix": "interp",
+    "body": ["show \"Hello {$1}!\""],
+    "description": "String interpolation — embed {expr} in double-quoted strings"
+  },
+  "if": {
+    "prefix": "if",
+    "body": ["if $1:", "  $0"],
+    "description": "Conditional block"
+  },
+  "ifelse": {
+    "prefix": "ifelse",
+    "body": ["if $1:", "  $2", "else:", "  $0"],
+    "description": "If/else conditional"
+  },
+  "elif": {
+    "prefix": "elif",
+    "body": ["elif $1:", "  $0"],
+    "description": "Else-if branch (use after an if block)"
+  },
+  "ifelif": {
+    "prefix": "ifelif",
+    "body": [
+      "if $1:",
+      "  $2",
+      "elif $3:",
+      "  $4",
+      "else:",
+      "  $0"
+    ],
+    "description": "If / elif / else chain"
+  },
+  "while": {
+    "prefix": "while",
+    "body": ["while $1:", "  $0"],
+    "description": "Loop while a condition is true"
+  },
+  "repeat": {
+    "prefix": "repeat",
+    "body": ["repeat $1:", "  $0"],
+    "description": "Repeat a block N times"
+  },
+  "repeatrange": {
+    "prefix": "repeatrange",
+    "body": ["repeat $1 from $2 to $3:", "  $0"],
+    "description": "Repeat over a numeric range"
+  },
+  "for": {
+    "prefix": "for",
+    "body": ["for $1 in $2:", "  $0"],
+    "description": "Iterate over a list"
+  },
+  "break": {
+    "prefix": "break",
+    "body": ["break"],
+    "description": "Exit the current loop"
+  },
+  "continue": {
+    "prefix": "continue",
+    "body": ["continue"],
+    "description": "Skip to the next loop iteration"
+  },
+  "func": {
+    "prefix": "func",
+    "body": ["func $1($2):", "  $0"],
+    "description": "Define a function"
+  },
+  "return": {
+    "prefix": "return",
+    "body": ["return $1"],
+    "description": "Return a value from a function"
+  },
+  "list": {
+    "prefix": "list",
+    "body": ["[$1]"],
+    "description": "A list literal"
+  },
+  "fizzbuzz": {
+    "prefix": "fizzbuzz",
+    "body": [
+      "# Classic FizzBuzz in Breeze",
+      "repeat n from 1 to 100:",
+      "  if n % 15 == 0:",
+      "    show \"FizzBuzz\"",
+      "  elif n % 3 == 0:",
+      "    show \"Fizz\"",
+      "  elif n % 5 == 0:",
+      "    show \"Buzz\"",
+      "  else:",
+      "    show n"
+    ],
+    "description": "A full FizzBuzz example using elif"
+  }
+}

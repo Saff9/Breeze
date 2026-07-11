@@ -1,0 +1,33 @@
+name-template: 'v$RESOLVED_VERSION'
+tag-template: 'v$RESOLVED_VERSION'
+
+# Categorize pull requests by their labels.
+category-template: '### $TITLE'
+categories:
+  - title: 'Breaking Changes'
+    label: 'breaking'
+  - title: 'New Features'
+    label: 'feature'
+  - title: 'Bug Fixes'
+    label: 'fix'
+  - title: 'Documentation'
+    label: 'docs'
+  - title: 'Internal'
+    label: 'internal'
+
+# Auto-generate the change description from the PR title.
+change-template: '- $TITLE (#$NUMBER)'
+
+# Template for the full release body.
+template: |
+  ## What changed
+
+  $CHANGES
+
+  ## Install
+
+  ```
+  npm install -g breeze-lang
+  ```
+
+  Or from source: see [docs/PUBLISHING.md](docs/PUBLISHING.md).

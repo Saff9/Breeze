@@ -1,0 +1,7 @@
+{
+  "name": "string",
+  "version": "1.0.0",
+  "description": "String utilities for Breeze: pad, case conversion, template, and more.",
+  "entry": "main.bz",
+  "language": "breeze"
+}

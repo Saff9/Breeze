@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Todo — Breeze Full-Stack</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: system-ui, sans-serif; background: #0f172a; color: #e2e8f0; max-width: 560px; margin: 2rem auto; padding: 0 1rem; }
+    h1 { color: #2dd4bf; margin-bottom: 1rem; }
+    #app { background: #1e293b; border-radius: 12px; padding: 1.5rem; }
+    #form { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
+    #input { flex: 1; padding: 0.6rem; border: 1px solid #334155; border-radius: 6px; background: #0f172a; color: #e2e8f0; font-size: 1rem; }
+    button { background: #2dd4bf; color: #0f172a; border: none; padding: 0.6rem 1.2rem; border-radius: 6px; font-size: 1rem; cursor: pointer; font-weight: 600; }
+    button:hover { background: #5eead4; }
+    .todo { display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 0; border-bottom: 1px solid #334155; }
+    .todo:last-child { border: none; }
+    .todo-text { flex: 1; }
+    .done { text-decoration: line-through; color: #64748b; }
+    .del { background: #e11d48; color: #fff; padding: 0.3rem 0.6rem; font-size: 0.8rem; border-radius: 4px; }
+    #status { margin-top: 0.5rem; font-size: 0.85rem; color: #64748b; }
+  </style>
+</head>
+<body>
+  <h1>Todo</h1>
+  <div id="app">
+    <div id="form">
+      <input id="input" placeholder="Add a todo..." />
+      <button id="add">Add</button>
+    </div>
+    <div id="list"></div>
+    <div id="status">Loading...</div>
+  </div>
+
+  <!-- Point API_URL to your backend. Default: same host, port 3000. -->
+  <script>
+    window.API_URL = "http://localhost:3000";
+  </script>
+
+  <!-- Breeze runtime -->
+  <script src="https://cdn.jsdelivr.net/gh/Saff9/Breeze@main/breeze-browser/breeze.js"></script>
+
+  <!-- The app logic in Breeze -->
+  <script type="text/breeze" data-output="status">
+    # Full-stack todo app — Breeze frontend calling a Breeze backend.
+    api = window.API_URL
+
+    func fetch_todos():
+      show "Fetching todos..."
+      raw = js.call("fetchSync", api + "/todos")
+      if raw == none:
+        show "Cannot reach backend at " + api
+        return
+      todos = json.parse(raw)
+      html_list = ""
+      for todo in todos:
+        id = json.get(todo, "id")
+        text = json.get(todo, "text")
+        done = json.get(todo, "done")
+        cls = "todo-text"
+        if done:
+          cls = "todo-text done"
+        html_list = html_list + "<div class='todo'><span class='" + cls + "'>" + text + "</span><button class='del' onclick='del(" + id + ")')>x</button></div>"
+      dom.set("list", html_list)
+      show "Loaded " + len(todos) + " todos"
+
+    func add_todo():
+      text = dom.value("input")
+      if len(text) == 0:
+        show "Type something first"
+        return
+      body = json.stringify([["text", text]])
+      js.call("postSync", api + "/todos", body)
+      dom.set_value("input", "")
+      fetch_todos()
+
+    # Wire up the Add button
+    dom.on("add", "click", func():
+      add_todo()
+    )
+
+    # Load on start
+    fetch_todos()
+  </script>
+
+  <!-- JS helpers (fetch is async; these wrap it sync for Breeze) -->
+  <script>
+    function fetchSync(url) {
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", url, false);
+      try { xhr.send(); return xhr.responseText; }
+      catch (e) { return null; }
+    }
+    function postSync(url, body) {
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", url, false);
+      xhr.setRequestHeader("Content-Type", "application/json");
+      try { xhr.send(body); return xhr.responseText; }
+      catch (e) { return null; }
+    }
+    function del(id) {
+      var xhr = new XMLHttpRequest();
+      xhr.open("DELETE", window.API_URL + "/todos/" + id, false);
+      xhr.send();
+      location.reload();
+    }
+  </script>
+</body>
+</html>

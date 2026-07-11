@@ -1,0 +1,27 @@
+# String interpolation — double-quoted strings interpolate {expr} segments.
+# Single-quoted strings are literal (handy for text containing curly braces).
+
+name = "World"
+age = 7
+show "Hello {name}!"
+show "You are {age} years old."
+
+# Expressions inside {} are evaluated.
+show "2 + 3 = {2 + 3}"
+show "Upper: {upper(name)}"
+
+# Field access and calls work too.
+nums = [10, 20, 30]
+show "First is {nums[0]} and there are {len(nums)} items."
+show "Sum is {sum(nums)}."
+
+# Escape literal braces with \{ and \} when needed.
+show "Set notation: \{x, y, z\}"
+
+# Single-quoted strings stay literal — no interpolation.
+show 'Braces stay literal: {not_a_variable}'
+
+# Mix interpolation with the + operator and other text builtins.
+greeting = "Hello {name}, welcome to Breeze!"
+show greeting
+show reverse(greeting)

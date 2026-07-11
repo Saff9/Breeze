@@ -1,0 +1,7 @@
+{
+  "name": "random",
+  "version": "1.0.0",
+  "description": "Random utilities for Breeze: choice, shuffle, sample, password generator.",
+  "entry": "main.bz",
+  "language": "breeze"
+}

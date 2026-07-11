@@ -1,0 +1,16 @@
+{
+  "name": "breeze-web-api",
+  "version": "1.0.0",
+  "description": "A REST API written in the Breeze programming language.",
+  "private": true,
+  "scripts": {
+    "start": "breeze run src/main.bz",
+    "dev": "breeze run src/main.bz"
+  },
+  "dependencies": {
+    "breeze-lang": "^1.0.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

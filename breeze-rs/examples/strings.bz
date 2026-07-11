@@ -1,0 +1,23 @@
+# Text operations
+greeting = "Hello, Breeze!"
+
+show "Original:", greeting
+show "Length:", len(greeting)
+show "Uppercase:", upper(greeting)
+show "Lowercase:", lower(greeting)
+
+# Join words into a sentence
+words = ["Breeze", "is", "easy"]
+sentence = join(words, " ")
+show "Joined:", sentence
+
+# Build text by mixing values
+name = "Sam"
+age = 30
+message = "My name is " + name + " and I am " + age + " years old."
+show message
+
+# Range and sum
+nums = range(1, 11)
+show "Range 1..10:", nums
+show "Sum 1 to 10:", sum(nums)

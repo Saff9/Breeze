@@ -1,0 +1,126 @@
+# List utilities.
+# Pure Breeze — works on every runtime.
+#
+#   import { map, filter, reduce, sort, unique } from "list"
+
+# Apply a function to each element, return a new list.
+export func map(items, fn):
+  result = []
+  for item in items:
+    result = push(result, fn(item))
+  return result
+
+# Keep only elements where fn(element) is truthy.
+export func filter(items, fn):
+  result = []
+  for item in items:
+    if fn(item):
+      result = push(result, item)
+  return result
+
+# Reduce a list to a single value. fn(accumulator, item).
+export func reduce(items, fn, initial):
+  acc = initial
+  for item in items:
+    acc = fn(acc, item)
+  return acc
+
+# Find the first element where fn(element) is truthy. Returns none if not found.
+export func find(items, fn):
+  for item in items:
+    if fn(item):
+      return item
+  return none
+
+# Return true if any element satisfies fn.
+export func any(items, fn):
+  for item in items:
+    if fn(item):
+      return true
+  return false
+
+# Return true if all elements satisfy fn.
+export func all(items, fn):
+  for item in items:
+    if not fn(item):
+      return false
+  return true
+
+# Simple sort (ascending). Uses selection sort — fine for small lists.
+export func sort(items):
+  result = []
+  for item in items:
+    result = push(result, item)
+  # selection sort
+  for i in range(len(result)):
+    min_idx = i
+    for j in range(i + 1, len(result)):
+      if result[j] < result[min_idx]:
+        min_idx = j
+    if min_idx != i:
+      tmp = result[i]
+      result[i] = result[min_idx]
+      result[min_idx] = tmp
+  return result
+
+# Remove duplicates. Preserves order of first occurrence.
+export func unique(items):
+  result = []
+  for item in items:
+    if not contains(result, item):
+      result = push(result, item)
+  return result
+
+# Flatten one level of nesting.
+export func flatten(items):
+  result = []
+  for item in items:
+    if type(item) == "list":
+      for sub in item:
+        result = push(result, sub)
+    else:
+      result = push(result, item)
+  return result
+
+# Split a list into chunks of size n.
+export func chunk(items, n):
+  result = []
+  current = []
+  for i in range(len(items)):
+    push(current, items[i])
+    if len(current) == n:
+      result = push(result, current)
+      current = []
+  if len(current) > 0:
+    result = push(result, current)
+  return result
+
+# Zip two lists into pairs. Stops at the shorter list.
+export func zip(a, b):
+  result = []
+  n = len(a)
+  if len(b) < n:
+    n = len(b)
+  for i in range(n):
+    result = push(result, [a[i], b[i]])
+  return result
+
+# Enumerate: return [[index, item], ...].
+export func enumerate(items):
+  result = []
+  for i in range(len(items)):
+    result = push(result, [i, items[i]])
+  return result
+
+# Reverse a list.
+export func reverse(items):
+  result = []
+  i = len(items) - 1
+  while i >= 0:
+    result = push(result, items[i])
+    i = i - 1
+  return result
+
+# Sum — convenience wrapper around reduce.
+export func sum_list(items):
+  return reduce(items, func(a, b): return a + b, 0)

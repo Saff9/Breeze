@@ -1,0 +1,45 @@
+# Breeze calling Python — use Python's libraries from Breeze!
+#
+# This example uses the `python` stdlib (added in Breeze 1.2) to call out
+# to Python 3 for things Breeze doesn't do natively: list comprehensions,
+# the standard library's math functions, and arbitrary Python code.
+#
+# Run with:  breeze run main.bz
+# Requires:  python3 on your PATH (https://python.org)
+
+show "Python version: " + python.version()
+
+# Run a chunk of Python code. python.run() returns stdout as text, so we
+# trim() the trailing newline before displaying.
+result = python.run("print([x**2 for x in range(1, 6)])")
+show "Squares from Python: " + trim(result)
+
+# Call a Python function directly: python.call(module, function, args_list)
+# Here we ask Python's math module for sqrt(16).
+squares = python.call("math", "sqrt", [16])
+show "sqrt(16) = " + trim(squares)
+
+# Use Python for something Breeze can't do easily — a recursive function
+# with a list comprehension. Breeze doesn't support multi-line strings, so
+# we build the Python source by joining a list of lines with newlines.
+fib_lines = [
+  "def fib(n):",
+  "    a, b = 0, 1",
+  "    for _ in range(n):",
+  "        a, b = b, a + b",
+  "    return a",
+  "print([fib(i) for i in range(10)])",
+]
+fib_code = join(fib_lines, "\n")
+show "Fibonacci from Python: " + trim(python.run(fib_code))
+
+# Evaluate a single Python expression with python.eval().
+show "2 ** 10 = " + trim(python.eval("2 ** 10"))
+
+# Pass data the other way: build a list in Breeze, pass it to Python via
+# python.call() to compute statistics, and display the result.
+nums = [3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]
+show "Breeze list: " + nums
+show "Python sum:   " + trim(python.call("builtins", "sum", [nums]))
+show "Python max:   " + trim(python.call("builtins", "max", [nums]))
+show "Python sorted: " + trim(python.call("builtins", "sorted", [nums]))

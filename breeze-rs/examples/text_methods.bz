@@ -1,0 +1,47 @@
+# Text methods — split, contains, trim, replace, slice, and friends.
+
+sentence = "the quick brown fox"
+
+# split returns a list of substrings.
+words = split(sentence, " ")
+show "Words:", words
+
+# contains works on text and lists.
+show "Has 'fox'?", contains(sentence, "fox")
+show "Has 'cat'?", contains(sentence, "cat")
+show "Is 'fox' in words?", contains(words, "fox")
+
+# trim strips leading and trailing whitespace.
+show "[" + trim("   hello   ") + "]"
+
+# replace substitutes every occurrence.
+show replace("a-b-c", "-", "+")
+
+# slice extracts a substring. slice(text, start) or slice(text, start, end).
+show slice("hello world", 0, 5)
+show slice("hello world", 6)
+
+# starts_with / ends_with check prefixes and suffixes.
+show starts_with("hello", "he")
+show ends_with("hello", "lo")
+
+# index_of returns the first match position (or -1).
+show index_of("hello", "l")
+show index_of("hello", "z")
+
+# reverse works on text and lists.
+show reverse("abc")
+show reverse([1, 2, 3])
+
+# repeat_text repeats a string n times.
+show repeat_text("ab", 3)
+
+# Put it all together: capitalise each word.
+result = ""
+for w in words:
+  cap = upper(slice(w, 0, 1)) + slice(w, 1)
+  if result == "":
+    result = cap
+  else:
+    result = result + " " + cap
+show result

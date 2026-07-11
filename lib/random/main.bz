@@ -1,0 +1,57 @@
+# Random utilities.
+# Pure Breeze — uses the built-in random(a, b) function.
+#
+#   import { choice, shuffle, password } from "random"
+
+# Pick a random element from a list.
+export func choice(items):
+  if len(items) == 0:
+    return none
+  idx = random(0, len(items) - 1)
+  return items[idx]
+
+# Shuffle a list (Fisher-Yates). Returns a new list.
+export func shuffle(items):
+  result = []
+  for item in items:
+    result = push(result, item)
+  i = len(result) - 1
+  while i > 0:
+    j = random(0, i)
+    tmp = result[i]
+    result[i] = result[j]
+    result[j] = tmp
+    i = i - 1
+  return result
+
+# Pick n unique random elements from a list.
+export func sample(items, n):
+  if n > len(items):
+    n = len(items)
+  shuffled = shuffle(items)
+  result = []
+  for i in range(n):
+    result = push(result, shuffled[i])
+  return result
+
+# Generate a random password of given length.
+export func password(length):
+  chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*"
+  result = ""
+  repeat length:
+    idx = random(0, len(chars) - 1)
+    result = result + chars[idx]
+  return result
+
+# Random hex string (useful for IDs).
+export func hex_id(length):
+  chars = "0123456789abcdef"
+  result = ""
+  repeat length:
+    idx = random(0, 15)
+    result = result + chars[idx]
+  return result
+
+# Return true with probability p (0 to 1).
+export func chance(p):
+  return random(0, 1000) < p * 1000

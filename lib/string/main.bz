@@ -1,0 +1,107 @@
+# String utilities.
+# Pure Breeze — works on every runtime (Node, browser, Rust).
+#
+#   import { pad_left, title_case, template } from "string"
+
+# Repeat a character n times.
+export func fill(ch, n):
+  result = ""
+  repeat n:
+    result = result + ch
+  return result
+
+# Pad text on the left to reach `width`.
+export func pad_left(text, width):
+  if len(text) >= width:
+    return text
+  return fill(" ", width - len(text)) + text
+
+# Pad text on the right to reach `width`.
+export func pad_right(text, width):
+  if len(text) >= width:
+    return text
+  return text + fill(" ", width - len(text))
+
+# Center text within `width`.
+export func center(text, width):
+  if len(text) >= width:
+    return text
+  total = width - len(text)
+  left = total / 2
+  right = total - left
+  return fill(" ", left) + text + fill(" ", right)
+
+# Capitalize the first letter.
+export func capitalize(text):
+  if len(text) == 0:
+    return text
+  return upper(text[0]) + slice(text, 1)
+
+# Title case: capitalize each word.
+export func title_case(text):
+  words = split(text, " ")
+  result = []
+  for w in words:
+    result = push(result, capitalize(w))
+  return join(result, " ")
+
+# Convert to camelCase.
+export func camel_case(text):
+  words = split(text, "_")
+  if len(words) == 0:
+    return text
+  result = words[0]
+  for i in range(1, len(words)):
+    result = result + capitalize(words[i])
+  return result
+
+# Convert to snake_case.
+export func snake_case(text):
+  result = ""
+  for i in range(len(text)):
+    c = text[i]
+    if c == " ":
+      result = result + "_"
+    else:
+      result = result + lower(c)
+  return result
+
+# Simple template: replace {key} using a list of [key, value] pairs.
+#   template("Hello {name}!", [["name", "World"]])
+export func template(text, vars):
+  result = text
+  for pair in vars:
+    key = pair[0]
+    val = pair[1]
+    result = replace(result, "{" + key + "}", val)
+  return result
+
+# Split text into lines.
+export func lines(text):
+  return split(text, "\n")
+
+# Join lines back with newlines.
+export func join_lines(line_list):
+  return join(line_list, "\n")
+
+# Truncate text to `max` chars, adding "..." if cut.
+export func truncate(text, max):
+  if len(text) <= max:
+    return text
+  if max <= 3:
+    return slice(text, 0, max)
+  return slice(text, 0, max - 3) + "..."
+
+# Count occurrences of a substring.
+export func count(text, sub):
+  if len(sub) == 0:
+    return 0
+  n = 0
+  i = 0
+  while i <= len(text) - len(sub):
+    if slice(text, i, i + len(sub)) == sub:
+      n = n + 1
+      i = i + len(sub)
+    else:
+      i = i + 1
+  return n

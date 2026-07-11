@@ -1,0 +1,20 @@
+# Recursion: factorial and fibonacci
+func factorial(n):
+  if n <= 1:
+    return 1
+  else:
+    return n * factorial(n - 1)
+
+func fib(n):
+  if n < 2:
+    return n
+  else:
+    return fib(n - 1) + fib(n - 2)
+
+show "Factorials:"
+repeat i from 1 to 6:
+  show i, "! =", factorial(i)
+
+show "Fibonacci:"
+repeat i from 0 to 10:
+  show "fib(" + i + ") =", fib(i)

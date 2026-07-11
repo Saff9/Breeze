@@ -1,0 +1,137 @@
+name: Release
+
+# Triggered by pushing a tag like `v1.2.0`. Publishes every package to its
+# registry. Each job is independent — if one fails, the others still publish.
+#
+# Before triggering a release:
+#   1. Update the version in:
+#      - breeze-node/package.json
+#      - breeze-python/pyproject.toml
+#      - breeze-rs/Cargo.toml
+#      - breeze-vscode/package.json
+#   2. Update CHANGELOG.md
+#   3. Commit and tag:  git tag v1.2.0 && git push origin v1.2.0
+#
+# Required secrets (set in GitHub repo → Settings → Secrets → Actions):
+#   NPM_TOKEN       — npm access token (automation scope)
+#   PYPI_API_TOKEN  — PyPI API token
+#   CRATES_IO_TOKEN — crates.io API token
+#   VSCE_PAT        — VS Code Marketplace personal access token
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  npm:
+    name: Publish to npm
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: breeze-node
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: breeze-node/package.json
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install
+        run: npm install
+
+      - name: Build
+        run: npx tsc
+
+      - name: Test
+        run: npm test
+
+      - name: Publish
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  pypi:
+    name: Publish to PyPI
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: breeze-python
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Build package
+        run: |
+          pip install build
+          python -m build
+
+      - name: Publish
+        run: |
+          pip install twine
+          twine upload dist/*
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+
+  crates:
+    name: Publish to crates.io
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: breeze-rs
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Publish
+        run: cargo publish --token ${{ secrets.CRATES_IO_TOKEN }}
+
+  vscode:
+    name: Publish VS Code extension
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: breeze-vscode
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: breeze-vscode/package.json
+
+      - name: Install
+        run: npm install
+
+      - name: Compile
+        run: npx tsc -p ./
+
+      - name: Publish
+        run: npx vsce publish -p ${{ secrets.VSCE_PAT }}
+
+  github-release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+    needs: [npm, pypi, vscode]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          draft: false
+          prerelease: false

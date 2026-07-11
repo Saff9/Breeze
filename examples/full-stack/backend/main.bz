@@ -1,0 +1,68 @@
+# Todo API — backend in Breeze.
+#
+#   breeze run main.bz
+#
+# Serves a REST API on port 3000 (or $PORT).
+# The frontend in ../frontend/ talks to this API.
+
+import { json_response, not_found, starts_with, after_prefix } from "./routes.bz"
+
+port_env = env.get("PORT")
+if port_env == none:
+  port = 3000
+else:
+  port = number(port_env)
+
+show "Todo API on port {port}"
+show "  GET    /            health"
+show "  GET    /todos       list all"
+show "  POST   /todos       create"
+show "  GET    /todos/<id>  get one"
+show "  DELETE /todos/<id>  delete"
+
+todos = [
+  [["id", 1], ["text", "Learn Breeze"], ["done", true]],
+  [["id", 2], ["text", "Build an app"], ["done", false]]
+]
+next_id = 3
+
+func handle(req):
+  method = json.get(req, "method")
+  path = json.get(req, "path")
+
+  if method == "GET" and path == "/":
+    return json_response(200, [["status", "ok"], ["todos", len(todos)]])
+
+  if method == "GET" and path == "/todos":
+    return json_response(200, todos)
+
+  if method == "POST" and path == "/todos":
+    body = json.get(req, "body")
+    parsed = json.parse(body)
+    text = json.get(parsed, "text")
+    todo = [["id", next_id], ["text", text], ["done", false]]
+    todos = push(todos, todo)
+    next_id = next_id + 1
+    return json_response(201, todo)
+
+  if method == "DELETE" and starts_with(path, "/todos/"):
+    id_text = after_prefix(path, "/todos/")
+    id_num = number(id_text)
+    new_list = []
+    for t in todos:
+      if json.get(t, "id") != id_num:
+        push(new_list, t)
+    todos = new_list
+    return json_response(200, [["deleted", id_num]])
+
+  if method == "GET" and starts_with(path, "/todos/"):
+    id_text = after_prefix(path, "/todos/")
+    id_num = number(id_text)
+    for t in todos:
+      if json.get(t, "id") == id_num:
+        return json_response(200, t)
+    return not_found("Todo not found")
+
+  return not_found("Route not found")
+
+http.listen(port, handle)

@@ -1,0 +1,32 @@
+# break and continue — control flow inside loops.
+
+# break exits the current loop immediately.
+show "break in repeat-from-to:"
+repeat i from 1 to 100:
+  if i > 3:
+    break
+  show i
+
+# continue skips to the next iteration.
+show "continue in repeat-from-to (odd only):"
+repeat i from 1 to 5:
+  if i % 2 == 0:
+    continue
+  show i
+
+# break inside a `for` loop.
+show "break in for:"
+fruits = ["apple", "banana", "cherry", "date"]
+for fruit in fruits:
+  if fruit == "cherry":
+    break
+  show fruit
+
+# continue inside a plain `repeat` loop.
+show "continue in plain repeat:"
+counter = 0
+repeat 5:
+  counter = counter + 1
+  if counter % 2 == 0:
+    continue
+  show counter
