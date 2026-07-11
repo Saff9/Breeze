@@ -4,6 +4,8 @@
 
 A minimal, readable programming language. No curly braces, no semicolons, no boilerplate.
 
+[![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-Donate-orange?style=for-the-badge&logo=buy-me-a-coffee)](https://razorpay.me/@CodeChap?amount=kXxURMaXFk%2Bmrv%2B9uGrYpg%3D%3D)
+
 [![npm version](https://img.shields.io/npm/v/breeze-lang.svg?color=green)](https://www.npmjs.com/package/breeze-lang)
 [![npm downloads](https://img.shields.io/npm/dm/breeze-lang.svg?color=blue)](https://www.npmjs.com/package/breeze-lang)
 [![VS Code](https://img.shields.io/visual-studio-marketplace/v/saffanakbar.breeze-lang.svg?label=VS%20Code)](https://marketplace.visualstudio.com/items?itemName=saffanakbar.breeze-lang)
