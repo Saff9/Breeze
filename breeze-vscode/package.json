@@ -2,7 +2,7 @@
   "name": "breeze-lang",
   "displayName": "Breeze Language",
   "description": "Language support for Breeze — the easiest programming language",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "publisher": "saffanakbar",
   "license": "MIT",
   "icon": "images/icon.png",
@@ -39,7 +39,11 @@
         "extensions": [
           ".bz"
         ],
-        "configuration": "./language-configuration.json"
+        "configuration": "./language-configuration.json",
+        "icon": {
+          "light": "./images/icon.png",
+          "dark": "./images/icon.png"
+        }
       }
     ],
     "grammars": [
